@@ -337,7 +337,229 @@ import java.util.stream.Collectors;
             scroll.setFitToHeight(true);
             return scroll;
         }
+        private ScrollPane createAllArtifactsPane(Stage stage) {
+            BorderPane pane = new BorderPane();
+            pane.setPadding(new Insets(10));
+            pane.setStyle("-fx-background-color: rgba(243, 112, 33, 0.15);");
 
+
+            tableView.setItems(artifactList);
+            tableView.setId("allArtifactsTable");
+            tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
+
+            TableColumn<Artifact, String> idCol = new TableColumn<>("ID");
+            idCol.setCellValueFactory(new PropertyValueFactory<>("artifactId"));
+            idCol.setStyle("-fx-alignment: CENTER;");
+
+            TableColumn<Artifact, String> nameCol = new TableColumn<>("Name");
+            nameCol.setCellValueFactory(new PropertyValueFactory<>("artifactName"));
+            nameCol.setStyle("-fx-alignment: CENTER-LEFT;");
+
+            TableColumn<Artifact, String> categoryCol = new TableColumn<>("Category");
+            categoryCol.setCellValueFactory(new PropertyValueFactory<>("category"));
+            categoryCol.setStyle("-fx-alignment: CENTER-LEFT;");
+
+            TableColumn<Artifact, String> civCol = new TableColumn<>("Civilization");
+            civCol.setCellValueFactory(new PropertyValueFactory<>("civilization"));
+            civCol.setStyle("-fx-alignment: CENTER-LEFT;");
+
+            TableColumn<Artifact, String> placeCol = new TableColumn<>("Current Location");
+            placeCol.setCellValueFactory(new PropertyValueFactory<>("currentPlace"));
+            placeCol.setStyle("-fx-alignment: CENTER-LEFT;");
+
+            TableColumn<Artifact, String> discLocCol = new TableColumn<>("Discovery Location");
+            discLocCol.setCellValueFactory(new PropertyValueFactory<>("discoveryLocation"));
+            discLocCol.setStyle("-fx-alignment: CENTER-LEFT;");
+
+            TableColumn<Artifact, String> compCol = new TableColumn<>("Composition");
+            compCol.setCellValueFactory(new PropertyValueFactory<>("composition"));
+            compCol.setStyle("-fx-alignment: CENTER-LEFT;");
+
+            TableColumn<Artifact, String> discDateCol = new TableColumn<>("Discovery Date");
+            discDateCol.setCellValueFactory(new PropertyValueFactory<>("discoveryDate"));
+            discDateCol.setStyle("-fx-alignment: CENTER-LEFT;");
+
+            TableColumn<Artifact, String> wCol = new TableColumn<>("Weight");
+            wCol.setCellValueFactory(new PropertyValueFactory<>("weight"));
+            wCol.setStyle("-fx-alignment: CENTER-LEFT;");
+
+            TableColumn<Artifact, String> dCol = new TableColumn<>("Dimensions");
+            dCol.setCellValueFactory(new PropertyValueFactory<>("dimensions"));
+            dCol.setStyle("-fx-alignment: CENTER-LEFT;");
+
+            TableColumn<Artifact, String> tagsCol = new TableColumn<>("Tags");
+            tagsCol.setCellValueFactory(new PropertyValueFactory<>("tags"));
+            tagsCol.setStyle("-fx-alignment: CENTER-LEFT;");
+
+            tableView.getColumns().setAll(idCol, nameCol, categoryCol, civCol, placeCol,discLocCol,
+                    compCol,discDateCol,wCol,dCol,tagsCol);
+
+            tableView.setRowFactory(tv -> {
+                TableRow<Artifact> row = new TableRow<>();
+                row.setOnMouseClicked(event -> {
+                    if (event.getClickCount() == 2 && !row.isEmpty()) {
+                        Artifact artifact = row.getItem();
+                        showImagePopup(artifact.getImagePath());
+                    }
+                });
+                return row;
+            });
+
+            Button importBtn = new Button("Import JSON");
+            Button exportBtn = new Button("Export JSON");
+
+            importBtn.setOnAction(e -> importArtifacts(stage));
+            exportBtn.setOnAction(e -> exportArtifacts(stage));
+
+            HBox controls = new HBox(10, importBtn, exportBtn);
+            controls.setPadding(new Insets(10));
+            controls.setAlignment(Pos.CENTER_LEFT);
+
+            imageView.setFitHeight(200);
+            imageView.setFitWidth(200);
+            imageView.setPreserveRatio(true);
+
+            VBox right = new VBox(10, new Label("Artifact Image"), imageView );
+            right.setPadding(new Insets(10));
+            right.setAlignment(Pos.TOP_CENTER);
+
+            tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> showArtifactImage(newSel));
+
+
+            pane.setTop(controls);
+            pane.setCenter(tableView);
+            pane.setRight(right);
+
+            ScrollPane scrollAAPane=new ScrollPane(pane);
+            scrollAAPane.setFitToWidth(true);
+            scrollAAPane.setFitToHeight(true);
+
+
+
+            return scrollAAPane;
+        }
+
+
+
+        private ScrollPane createAddArtifactPane(Stage stage) {
+            VBox box = new VBox(10);
+            box.setPadding(new Insets(20));
+            box.setStyle("-fx-background-color: rgba(243, 112, 33, 0.15);");
+
+
+            TextField idField = new TextField(); idField.setPromptText("Artifact ID");
+            TextField nameField = new TextField(); nameField.setPromptText("Name");
+            TextField categoryField = new TextField(); categoryField.setPromptText("Category");
+            TextField civField = new TextField(); civField.setPromptText("Civilization");
+            TextField placeField = new TextField(); placeField.setPromptText("Current Location");
+            TextField tagsField = new TextField(); tagsField.setPromptText("Tags (comma separated)");
+            TextField discoveryPlaceField = new TextField(); discoveryPlaceField.setPromptText("Discovery Location");
+            TextField compositionField = new TextField(); compositionField.setPromptText("Composition");
+            TextField discoveryDateField = new TextField(); discoveryDateField.setPromptText("Discovery Date");
+            TextField weightField = new TextField(); weightField.setPromptText("Weight (kg)");
+            TextField widthField = new TextField(); widthField.setPromptText("Width (cm)");
+            TextField lengthField = new TextField(); lengthField.setPromptText("Length (cm)");
+            TextField heightField = new TextField(); heightField.setPromptText("Height (cm)");
+            TextField imagePathField = new TextField(); imagePathField.setPromptText("Image Path");
+
+
+            Button browse = new Button("Browse Image");
+            browse.setOnAction(e -> {
+                FileChooser fc = new FileChooser();
+                File f = fc.showOpenDialog(stage);
+                if (f != null) imagePathField.setText(f.getAbsolutePath());
+            });
+
+            Button clearBtn = new Button("Clear");
+            Runnable clearFields = () -> {
+                idField.clear();
+                nameField.clear();
+                categoryField.clear();
+                civField.clear();
+                placeField.clear();
+                tagsField.clear();
+                discoveryPlaceField.clear();
+                compositionField.clear();
+                discoveryDateField.clear();
+                weightField.clear();
+                widthField.clear();
+                lengthField.clear();
+                heightField.clear();
+                imagePathField.clear();
+            };
+            clearBtn.setOnAction(e -> clearFields.run());
+
+            Button saveBtn = new Button("Save");
+            saveBtn.setOnAction(e -> {
+                String enteredId = idField.getText().trim();
+                String name = nameField.getText().trim();
+                String category = categoryField.getText().trim();
+                String civilization = civField.getText().trim();
+
+
+
+                if (enteredId.isEmpty() || name.isEmpty() ||
+                        category.isEmpty() || civilization.isEmpty()) {
+                    showAlert("Missing Fields", "ID, Name, Category, and Civilization cannot be empty.");
+                    return;
+                }
+
+
+
+                boolean exists = artifactList.stream()
+                        .anyMatch(a -> a.getArtifactId().equalsIgnoreCase(enteredId));
+
+                if (exists) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Duplicate ID");
+                    alert.setHeaderText("Artifact ID already exists.");
+                    alert.setContentText("Please enter a unique Artifact ID.");
+                    alert.showAndWait();
+                    return;
+                }
+
+
+                Artifact a = new Artifact();
+                a.setArtifactId(enteredId);
+                a.setArtifactName(nameField.getText());
+                a.setCategory(categoryField.getText());
+                a.setCivilization(civField.getText());
+                a.setCurrentPlace(placeField.getText());
+                a.setTags(List.of(tagsField.getText().split(",\\s*")));
+                a.setDiscoveryLocation(discoveryPlaceField.getText());
+                a.setComposition(compositionField.getText());
+                a.setDiscoveryDate(discoveryDateField.getText());
+                a.setImagePath(imagePathField.getText());
+
+                try {
+                    a.setWeight(Double.parseDouble(weightField.getText()));
+                    a.setWidth(Double.parseDouble(widthField.getText()));
+                    a.setLength(Double.parseDouble(lengthField.getText()));
+                    a.setHeight(Double.parseDouble(heightField.getText()));
+                } catch (NumberFormatException ex) {
+                    a.setWeight(0); a.setWidth(0); a.setLength(0); a.setHeight(0);
+                }
+
+
+
+                artifactList.add(a);
+                clearFields.run();
+            });
+
+
+            HBox buttons = new HBox(10, saveBtn, clearBtn);
+            box.getChildren().addAll(idField, nameField, categoryField, civField, placeField,
+                    discoveryPlaceField, compositionField, discoveryDateField,
+                    weightField, widthField, lengthField, heightField,
+                    tagsField, imagePathField, browse, buttons);
+
+            ScrollPane scrollAddPane=new ScrollPane(box);
+            scrollAddPane.setFitToWidth(true);
+            scrollAddPane.setFitToHeight(true);
+
+
+            return scrollAddPane;
+        }
 
 
 

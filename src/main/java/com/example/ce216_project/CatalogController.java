@@ -7,6 +7,11 @@ public class CatalogController {
     @FXML
     private Label greetingLabel;
 
+    //
+
+
+
+
     @FXML
     protected void onCatalogButtonClick() {
         greetingLabel.setText("Welcome to the Artifact Catalog!");
