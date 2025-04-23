@@ -1,0 +1,162 @@
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: linear-gradient(to bottom, #ffffff, #f3f3f3);
+}
+
+.toggle-button {
+    -fx-background-color: #eeeeee;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-size: 14px;
+    -fx-padding: 6 16;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
+
+.toggle-button:selected {
+    -fx-background-color: linear-gradient(to right, #0072ff, #00c6ff);
+    -fx-text-fill: white;
+}
+
+.button {
+    -fx-background-color: linear-gradient(to right, #4b6cb7, #182848);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-padding: 8 16;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to right, #182848, #4b6cb7);
+}
+
+.text-field, .combo-box {
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 6;
+    -fx-font-size: 13px;
+}
+
+.label {
+    -fx-text-fill: #333333;
+    -fx-font-size: 14px;
+}
+
+.text-area {
+    -fx-background-color: #fcfcfc;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 10;
+    -fx-padding: 10;
+    -fx-font-size: 13px;
+}
+
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 10;
+    -fx-font-size: 13px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #0072ff;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.image-view {
+    -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.3), 10, 0, 2, 2);
+}
+/* Only affects Add Artifact section */
+
+.text-field {
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #ddd;
+    -fx-padding: 6;
+    -fx-font-size: 13px;
+}
+
+.label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+    -fx-font-size: 13px;
+}
+
+.button {
+    -fx-background-color: #f37021;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 6 16;
+}
+
+.button:hover {
+    -fx-background-color: #e05c00;
+}
+.button {
+    -fx-background-color: #c0392b;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+}
+.button:hover {
+    -fx-background-color: #a93226;
+}
+.toggle-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #333;
+    -fx-font-size: 14px;
+    -fx-padding: 8 16;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-transition: all 0.3s ease;
+}
+
+/* Hover: Üzerine gelince IEU turuncusu */
+.toggle-button:hover {
+    -fx-background-color: #f37021;
+    -fx-text-fill: white;
+}
+
+/* Seçili durumda IEU turuncusu */
+.toggle-button:selected {
+    -fx-background-color: #f37021;
+    -fx-text-fill: white;
+}
+.toggle-button {
+    -fx-border-color: #f37021;
+}
+.button {
+    -fx-background-color: #f37021;
+    -fx-text-fill: white;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 20;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0.5, 0, 1);
+    -fx-transition: all 0.3s ease;
+}
+
+/* Hover efekti */
+.button:hover {
+    -fx-background-color: #e15e0d;
+}
+
+/* Tıklanınca */
+.button:pressed {
+    -fx-background-color: #c04c0a;
+}
