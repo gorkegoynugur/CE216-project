@@ -1,36 +1,6 @@
 package com.example.ce216_project;
-
-import com.example.ce216_project.model.Artifact;
-import javafx.animation.FadeTransition;
-import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-
-
-import com.example.ce216_project.model.Artifact;
 import com.example.ce216_project.util.ArtifactJsonHandler;
+import com.example.ce216_project.model.Artifact;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -50,12 +20,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 
 
