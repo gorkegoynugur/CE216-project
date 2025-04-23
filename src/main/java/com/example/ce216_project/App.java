@@ -560,6 +560,393 @@ import java.util.stream.Collectors;
 
             return scrollAddPane;
         }
+        private ScrollPane createGuidePane() {
+
+            VBox vbox = new VBox(20);
+            vbox.setPadding(new Insets(40));
+            vbox.setAlignment(Pos.TOP_LEFT);
+            vbox.setStyle("-fx-background-color: rgba(243, 112, 33, 0.15);");
+
+            Label title = new Label("📘 Quick Guide");
+            title.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2b2b2b;");
+
+            String[][] guide = {
+                    {"📦 Import", "Click to load artifacts from a JSON file into the system."},
+                    {"💾 Export", "Save all artifacts currently in the list to a .json file."},
+                    {"➕ Add Artifact", "Fill out the form with artifact details and click Save."},
+                    {"🖼 View Image", "Double-click an artifact to preview its image in full size."},
+                    {"🧹 Clear", "Use the Clear button to reset all form fields."},
+                    {"🔍 Search", "Navigate to Search tab and type to filter artifacts live."}
+            };
+
+            VBox guideCards = new VBox(15);
+            for (String[] g : guide) {
+                Label header = new Label(g[0]);
+                header.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #f37021;");
+                Label desc = new Label(g[1]);
+                desc.setWrapText(true);
+                desc.setStyle("-fx-text-fill: #555; -fx-font-size: 14px;");
+                VBox card = new VBox(5, header, desc);
+                card.setStyle("-fx-background-color: #ffffff; -fx-border-color: #ddd; -fx-border-radius: 8; -fx-padding: 12; -fx-background-radius: 8;");
+                guideCards.getChildren().add(card);
+            }
+
+            vbox.getChildren().addAll(title, guideCards);
+
+            ScrollPane scrollGuide=new ScrollPane(vbox);
+            scrollGuide.setFitToHeight(true);
+            scrollGuide.setFitToWidth(true);
+            return scrollGuide;
+
+        }
+
+        private ScrollPane createFaqPane() {
+            VBox wrapper = new VBox(20);
+            wrapper.setPadding(new Insets(30));
+            wrapper.setAlignment(Pos.TOP_LEFT);
+            wrapper.setStyle("-fx-background-color: rgba(243, 112, 33, 0.15);");
+
+            Label title = new Label("❓ Frequently Asked Questions");
+            title.setStyle("-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #2b2b2b;");
+
+            Accordion accordion = new Accordion();
+            accordion.setStyle("-fx-background-color: transparent;");
+            VBox.setVgrow(accordion, Priority.ALWAYS); // bu satır önemli
+
+            String[][] faq = {
+                    {"How can I add a new artifact?", "Go to the ➕ Add Artifact tab, fill in the fields and click Save."},
+                    {"What file format should I use to import/export artifacts?", "Use .json files structured like artifact data."},
+                    {"Can I preview artifact images?", "Double-click any row in All Artifacts to view the full image."},
+                    {"How do I search for a specific artifact?", "Use the Search tab and type keywords to filter live."},
+                    {"What happens when I click ‘Clear’?", "It resets all input fields in the Add tab."},
+                    {"Can I edit or delete existing artifacts?", "Currently not, but you can export/import updated lists."},
+                    {"What if an image is not showing?", "Ensure the file path is correct and the image exists."},
+                    {"How is data saved?", "Exporting creates a JSON file using Gson."}
+            };
+
+            for (String[] pair : faq) {
+                Label content = new Label(pair[1]);
+                content.setWrapText(true);
+                content.setStyle("-fx-padding: 10; -fx-font-size: 14px; -fx-text-fill: #444;");
+                TitledPane pane = new TitledPane("❓ " + pair[0], content);
+                pane.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #f37021;");
+                accordion.getPanes().add(pane);
+            }
+
+            wrapper.getChildren().addAll(title, accordion);
+
+            ScrollPane scrollFaq=new ScrollPane(wrapper);
+            scrollFaq.setFitToHeight(true);
+            scrollFaq.setFitToWidth(true);
+
+            return scrollFaq;
+        }
+
+        private ScrollPane createAdminPane() {
+            VBox adminPane = new VBox(20);
+            adminPane.setPadding(new Insets(30));
+            adminPane.setAlignment(Pos.TOP_CENTER);
+
+            Label title = new Label("🔐 Admin - Manage Artifacts");
+            title.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+            adminPane.setStyle("-fx-background-color: rgba(243, 112, 33, 0.15);");
+
+            TableView<Artifact> adminTable = new TableView<>();
+            adminTable.setItems(artifactList); // aynı listeyi kullanıyoruz
+            adminTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
+
+            TableColumn<Artifact, String> idCol = new TableColumn<>("ID");
+            idCol.setCellValueFactory(new PropertyValueFactory<>("artifactId"));
+            TableColumn<Artifact, String> nameCol = new TableColumn<>("Name");
+            nameCol.setCellValueFactory(new PropertyValueFactory<>("artifactName"));
+            TableColumn<Artifact, String> categoryCol = new TableColumn<>("Category");
+            categoryCol.setCellValueFactory(new PropertyValueFactory<>("category"));
+            TableColumn<Artifact, String> civCol = new TableColumn<>("Civilization");
+            civCol.setCellValueFactory(new PropertyValueFactory<>("civilization"));
+            TableColumn<Artifact, String> placeCol = new TableColumn<>("Current Location");
+            placeCol.setCellValueFactory(new PropertyValueFactory<>("currentPlace"));
+            TableColumn<Artifact, String> discLocCol = new TableColumn<>("Discovery Location");
+            discLocCol.setCellValueFactory(new PropertyValueFactory<>("discoveryLocation"));
+            TableColumn<Artifact, String> compCol = new TableColumn<>("Composition");
+            compCol.setCellValueFactory(new PropertyValueFactory<>("composition"));
+            TableColumn<Artifact, String> discDateCol = new TableColumn<>("Discovery Date");
+            discDateCol.setCellValueFactory(new PropertyValueFactory<>("discoveryDate"));
+            TableColumn<Artifact, String> wCol = new TableColumn<>("Weight");
+            wCol.setCellValueFactory(new PropertyValueFactory<>("weight"));
+            TableColumn<Artifact, String> dCol = new TableColumn<>("Dimensions");
+            dCol.setCellValueFactory(new PropertyValueFactory<>("dimensions"));
+            TableColumn<Artifact, String> tagsCol = new TableColumn<>("Tags");
+            tagsCol.setCellValueFactory(new PropertyValueFactory<>("Tags"));
+            adminTable.getColumns().addAll(idCol, nameCol, categoryCol, civCol, placeCol,discLocCol,
+                    compCol,discDateCol,wCol,dCol,tagsCol);
+
+            Button editBtn = new Button("✏️ Edit");
+            Button deleteBtn = new Button("🗑️ Delete");
+
+            editBtn.setOnAction(e -> {
+                Artifact selected = adminTable.getSelectionModel().getSelectedItem();
+                if (selected != null) {
+                    showEditPopup(selected);
+                    adminTable.refresh();
+                } else {
+                    showAlert("No Selection", "Please select an artifact to edit.");
+                }
+            });
+
+            deleteBtn.setOnAction(e -> {
+                Artifact selected = adminTable.getSelectionModel().getSelectedItem();
+                if (selected != null) {
+                    artifactList.remove(selected);
+                } else {
+                    showAlert("No Selection", "Please select an artifact to delete.");
+                }
+            });
+
+            HBox buttons = new HBox(10, editBtn, deleteBtn);
+            buttons.setAlignment(Pos.CENTER);
+
+            adminPane.getChildren().addAll(title, adminTable, buttons);
+
+            ScrollPane scrollAdmin=new ScrollPane(adminPane);
+            scrollAdmin.setFitToHeight(true);
+            scrollAdmin.setFitToWidth(true);
+
+            return scrollAdmin;
+        }
+
+
+        private void showLoginDialog(Stage owner, Runnable onSuccess, Runnable onFail) {
+            Stage dialog = new Stage();
+            dialog.initModality(Modality.WINDOW_MODAL);
+            dialog.initOwner(owner);
+            dialog.setTitle("🔐 Admin Login");
+
+            Label title = new Label("Admin Access Required");
+            title.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #f37021;");
+
+            TextField usernameField = new TextField();
+            usernameField.setPromptText("Username");
+            usernameField.setStyle("-fx-background-radius: 6; -fx-border-radius: 6; -fx-padding: 8;");
+
+            PasswordField passwordField = new PasswordField();
+            passwordField.setPromptText("Password");
+            passwordField.setStyle("-fx-background-radius: 6; -fx-border-radius: 6; -fx-padding: 8;");
+
+            Label errorLabel = new Label();
+            errorLabel.setStyle("-fx-text-fill: red;");
+
+            Button loginBtn = new Button("Login");
+            loginBtn.setStyle(
+                    "-fx-background-color: #f37021; " +
+                            "-fx-text-fill: white; " +
+                            "-fx-font-weight: bold; " +
+                            "-fx-background-radius: 6;"
+            );
+            loginBtn.setDefaultButton(true);
+
+            loginBtn.setOnAction(e -> {
+                String user = usernameField.getText().trim();
+                String pass = passwordField.getText().trim();
+
+                if (user.equals("admin") && pass.equals("şifre")) {
+                    dialog.close();
+                    onSuccess.run();
+                } else {
+                    errorLabel.setText("Incorrect username or password.");
+                }
+            });
+            ImageView logo = new ImageView(new Image(getClass().getResourceAsStream("/ieulogo.png")));
+            logo.setFitWidth(100);
+            logo.setPreserveRatio(true);
+
+            DropShadow shadow = new DropShadow();
+            shadow.setRadius(5);
+            shadow.setOffsetX(3);
+            shadow.setOffsetY(3);
+            shadow.setColor(Color.rgb(0, 0, 0, 0.3));
+            logo.setEffect(shadow);
+
+            VBox layout = new VBox(12, logo, title, usernameField, passwordField, loginBtn, errorLabel);
+            layout.setAlignment(Pos.CENTER);
+            layout.setPadding(new Insets(30));
+            VBox.setMargin(logo, new Insets(10, 0, -5, 0));
+            Scene scene = new Scene(layout, 400, 340); // yeni boyut
+
+            layout.setStyle(
+                    "-fx-background-color: linear-gradient(to bottom right, #ffffff, #f2f2f2); " +
+                            "-fx-border-color: #ddd; " +
+                            "-fx-border-width: 1; " +
+                            "-fx-border-radius: 10; " +
+                            "-fx-background-radius: 10;"
+            );
+
+
+            dialog.setScene(scene);
+            dialog.showAndWait();
+
+            if (!dialog.isShowing()) {
+                onFail.run();
+            }
+        }
+
+
+        private void showImagePopup(String imagePath) {
+            if (imagePath == null || imagePath.isEmpty()) return;
+
+            File file = new File(imagePath);
+            if (!file.exists()) {
+                showAlert("Error", "Image file not found.");
+                return;
+            }
+
+            Stage popup = new Stage();
+            popup.initModality(Modality.APPLICATION_MODAL);
+            popup.setTitle("Artifact Image");
+
+            ImageView fullImage = new ImageView(new Image(file.toURI().toString()));
+            fullImage.setPreserveRatio(true);
+            fullImage.setFitWidth(600);
+
+            Button closeBtn = new Button("Close");
+            closeBtn.setOnAction(e -> popup.close());
+
+            VBox layout = new VBox(10, fullImage, closeBtn);
+            layout.setAlignment(Pos.CENTER);
+            layout.setPadding(new Insets(30));
+
+            Scene scene = new Scene(layout);
+            popup.setScene(scene);
+            popup.showAndWait();
+        }
+
+
+
+        private void showEditPopup(Artifact artifact) {
+            Stage popup = new Stage();
+            popup.initModality(Modality.APPLICATION_MODAL);
+            popup.setTitle("✏️ Edit Artifact");
+
+            TextField idField = new TextField(artifact.getArtifactId());
+            TextField nameField = new TextField(artifact.getArtifactName());
+            TextField categoryField = new TextField(artifact.getCategory());
+            TextField civField = new TextField(artifact.getCivilization());
+            TextField placeField = new TextField(artifact.getCurrentPlace());
+            TextField discLocField = new TextField(artifact.getDiscoveryLocation());
+            TextField compField = new TextField(artifact.getComposition());
+            TextField discDateField = new TextField(artifact.getDiscoveryDate());
+            TextField weightField = new TextField();
+            TextField widthField = new TextField();
+            TextField lengthField = new TextField();
+            TextField heightField = new TextField();
+            TextField imagePathField = new TextField();
+            TextField tagsField = new TextField(String.join(", ", artifact.getTags()));
+
+
+            Button saveBtn = new Button("Save");
+            saveBtn.setOnAction(e -> {
+                artifact.setArtifactId(idField.getText().trim());
+                artifact.setArtifactName(nameField.getText().trim());
+                artifact.setCategory(categoryField.getText().trim());
+                artifact.setCivilization(civField.getText().trim());
+                artifact.setCurrentPlace(placeField.getText().trim());
+                artifact.setDiscoveryLocation(discLocField.getText().trim());
+                artifact.setComposition(compField.getText().trim());
+                artifact.setDiscoveryDate(discDateField.getText().trim());
+                artifact.setTags(List.of(tagsField.getText().split(",\\s*")));
+                try {
+                    artifact.setWeight(Double.parseDouble(weightField.getText()));
+                    artifact.setWidth(Double.parseDouble(widthField.getText()));
+                    artifact.setLength(Double.parseDouble(lengthField.getText()));
+                    artifact.setHeight(Double.parseDouble(heightField.getText()));
+                } catch (NumberFormatException ex) {
+                    artifact.setWeight(0); artifact.setWidth(0); artifact.setLength(0); artifact.setHeight(0);
+                }
+                popup.close();
+            });
+
+            VBox layout = new VBox(10,
+                    new Label("ID:"),idField,
+                    new Label("Name:"), nameField,
+                    new Label("Category:"), categoryField,
+                    new Label("Civilization:"), civField,
+                    new Label("Current Location:"), placeField,
+                    new Label("Discovery Location:"),discLocField,
+                    new Label("Composition:"),compField,
+                    new Label("Discovery Date:"),discDateField,
+                    new Label("Weight:"),weightField,
+                    new Label("Dimension: %s x %s x %s"),heightField, widthField,lengthField,
+                    new Label("Tags:"), tagsField,
+                    saveBtn
+            );
+            layout.setPadding(new Insets(20));
+            layout.setAlignment(Pos.CENTER_LEFT);
+
+            popup.setScene(new Scene(layout));
+            popup.showAndWait();
+        }
+
+
+        private void setupTableColumns() {
+            TableColumn<Artifact, String> idCol = new TableColumn<>("ID");
+            idCol.setCellValueFactory(new PropertyValueFactory<>("artifactId"));
+            TableColumn<Artifact, String> nameCol = new TableColumn<>("Name");
+            nameCol.setCellValueFactory(new PropertyValueFactory<>("artifactName"));
+            TableColumn<Artifact, String> catCol = new TableColumn<>("Category");
+            catCol.setCellValueFactory(new PropertyValueFactory<>("category"));
+            TableColumn<Artifact, String> civCol = new TableColumn<>("Civilization");
+            civCol.setCellValueFactory(new PropertyValueFactory<>("civilization"));
+            TableColumn<Artifact, String> placeCol = new TableColumn<>("Current Location");
+            placeCol.setCellValueFactory(new PropertyValueFactory<>("currentPlace"));
+
+            tableView.getColumns().addAll(idCol, nameCol, catCol, civCol, placeCol);
+        }
+
+        private void showArtifactImage(Artifact artifact) {
+            if (artifact != null && artifact.getImagePath() != null && !artifact.getImagePath().isEmpty()) {
+                try {
+                    imageView.setImage(new Image(new File(artifact.getImagePath()).toURI().toString()));
+                } catch (Exception e) {
+                    imageView.setImage(null);
+                }
+            } else {
+                imageView.setImage(null);
+            }
+        }
+
+        private void importArtifacts(Stage stage) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open JSON File");
+            File file = fileChooser.showOpenDialog(stage);
+            if (file != null) {
+                try {
+                    List<Artifact> loaded = ArtifactJsonHandler.loadArtifacts(file.getAbsolutePath());
+                    artifactList.setAll(loaded);
+                } catch (IOException e) {
+                    showAlert("Error", "Could not load file: " + e.getMessage());
+                }
+            }
+        }
+
+        private void exportArtifacts(Stage stage) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save JSON File");
+            File file = fileChooser.showSaveDialog(stage);
+            if (file != null) {
+                try {
+                    ArtifactJsonHandler.saveArtifacts(file.getAbsolutePath(), new ArrayList<>(artifactList));
+                } catch (IOException e) {
+                    showAlert("Error", "Could not save file: " + e.getMessage());
+                }
+            }
+        }
+
+        private void showAlert(String title, String message) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(title);
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            alert.showAndWait();
+        }
 
 
 
